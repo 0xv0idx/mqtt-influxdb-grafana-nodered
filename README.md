@@ -25,7 +25,7 @@ EOF
 
 cat > ~/grafana/conf/grafana.ini <<EOF
 [server]
-http_port = 80
+http_port = 8888
 EOF
 
 4.adım: docker-compose.yml dosyasının oluşturulması
@@ -52,7 +52,7 @@ services:
     environment:
       - TZ=Europe/Istanbul
     ports:
-      - "80:80"
+      - "1825:1825"
     volumes:
       - ~/grafana/data:/var/lib/grafana
       - ~/grafana/log:/var/log/grafana
@@ -71,7 +71,7 @@ services:
     volumes:
       - ~/mosquitto/:/mosquitto  
     ports:
-      - 1883:1883
+      - 8888:8888
     networks:
       - mosquitto-net
     restart: always
