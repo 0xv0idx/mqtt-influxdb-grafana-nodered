@@ -19,7 +19,7 @@ services:
     environment:
       - TZ=Europe/Istanbul
     ports:
-      - "80:80"
+      - "8888:8888"
     volumes:
       - ~/grafana/data:/var/lib/grafana
       - ~/grafana/log:/var/log/grafana
