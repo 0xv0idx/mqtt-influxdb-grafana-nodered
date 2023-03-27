@@ -1,0 +1,63 @@
+version: "2"
+services:
+  influxdb:
+    container_name: influxdb
+    image: influxdb
+    environment:
+      - TZ=Europe/Istanbul
+    ports:
+      - "8086:8086"
+    volumes:
+      - ~/influxdb/data:/var/lib/influxdb
+    networks:
+      - influxdb-net
+    restart: always
+    
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    environment:
+      - TZ=Europe/Istanbul
+    ports:
+      - "80:80"
+    volumes:
+      - ~/grafana/data:/var/lib/grafana
+      - ~/grafana/log:/var/log/grafana
+      - ~/grafana/conf/grafana.ini:/etc/grafana/grafana.ini
+    links:
+      - influxdb
+    networks:
+      - grafana-net
+    restart: always
+
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto:latest
+    environment:
+      - TZ=Europe/Istanbul
+    volumes:
+      - ~/mosquitto/:/mosquitto  
+    ports:
+      - 1883:1883
+    networks:
+      - mosquitto-net
+    restart: always
+
+  node-red:
+    container_name: node-red
+    image: nodered/node-red:latest
+    environment:
+      - TZ=Europe/Istanbul
+    ports:
+      - "1880:1880"
+    volumes:
+      - ~/node-red/data:/data
+    networks:
+      - node-red-net
+    restart: always
+
+networks:
+  node-red-net:
+  influxdb-net:
+  mosquitto-net:
+  grafana-net:
